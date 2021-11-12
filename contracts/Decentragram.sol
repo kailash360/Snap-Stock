@@ -17,8 +17,8 @@ contract Decentragram {
   uint public image_count = 0;
   mapping (uint=>Image) public images;
 
-  event added_image(string _name);
-  event tipped_image(string _name,uint _tip_amount);
+  event added_image(uint image_id,string name,string description,string hash);
+  event tipped_image(string name,uint tip_amount);
   
   
   function upload_image(string memory _hash,string memory _name,string memory _description,address payable _author,uint _minimum_tip) public payable{
@@ -31,16 +31,19 @@ contract Decentragram {
     images[image_count] = new_image;
 
     //Emit an event 
-    emit added_image(_name);
+    emit added_image(image_count,_name,_description,_hash);
   }
 
-  function tip_image(uint _image_id,uint _tip_amount) public payable{
+  function tip_image(uint _image_id) public payable{
+
+    uint _tip_amount = msg.value;
 
     //find the image with the given image id
     Image memory image = images[_image_id];
     
     //Send the tip to the author of the image
-    image.author.transfer(_tip_amount);
+    address payable _author = image.author;
+    _author.transfer(_tip_amount);
 
     //Add the tip amount to the total tip of the image
     image.total_tip += _tip_amount;
