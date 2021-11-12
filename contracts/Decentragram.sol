@@ -11,6 +11,7 @@ contract Decentragram {
     address payable author;
     uint minimum_tip;
     uint total_tip;
+    uint date;
   }
 
   uint public image_count = 0;
@@ -24,7 +25,7 @@ contract Decentragram {
 
     //Create an new image instance
     image_count++;
-    Image memory new_image = Image(image_count,_name,_description,_hash,_author,_minimum_tip,0);
+    Image memory new_image = Image(image_count,_name,_description,_hash,_author,_minimum_tip,0,block.timestamp);
 
     //Add the image to the mapping
     images[image_count] = new_image;
