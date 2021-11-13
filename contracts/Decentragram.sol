@@ -18,7 +18,7 @@ contract Decentragram {
   mapping (uint=>Image) public images;
 
   event added_image(uint image_id,string name,string description,string hash);
-  event tipped_image(string name,uint tip_amount);
+  event tipped_image(uint image_id,string name,uint tip_amount,uint total_tip);
   
   
   function upload_image(string memory _hash,string memory _name,string memory _description,address payable _author,uint _minimum_tip) public payable{
@@ -36,7 +36,13 @@ contract Decentragram {
 
   function tip_image(uint _image_id) public payable{
 
+    //Checking if teh image exists
+    require(_image_id > 0,"Image id should be positive");
+    require(_image_id <= image_count,"Image id should be less than or equal to current image count");
+
+    //Extract the tip amount and check if it is valid 
     uint _tip_amount = msg.value;
+    require(_tip_amount > 0,"Tip amount should be greater than 0");
 
     //find the image with the given image id
     Image memory image = images[_image_id];
@@ -52,7 +58,7 @@ contract Decentragram {
     images[_image_id] = image;
 
     //emit an event 
-    emit tipped_image(image.name, _tip_amount);
+    emit tipped_image(image.image_id,image.name, _tip_amount,image.total_tip);
   }
 
 }
