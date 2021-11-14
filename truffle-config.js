@@ -113,4 +113,5 @@ module.exports = {
     //   }
     // }
     // }
+    contracts_build_directory: "./frontend/src/build/contracts"
 };
