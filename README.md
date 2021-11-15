@@ -1,6 +1,6 @@
 # Snap Stock
 
-Snapstock is a smart-contract-based decentralized application that allows users to upload their images over the platform at the cost of gas fee, and display it to the other users who can then tip the creators based on their choice. 
+**Snap Stock** is a smart-contract-based decentralized application that allows users to upload their images over the platform at the cost of gas fee, and display it to the other users who can then tip the creators based on their choice. 
 
 The images are stored in a P2P network using the [Inter Planetary File system (IPFS) Protocol](https://ipfs.io). You can read more about IPFS Protocol at [IPFS Documentation](https://docs.ipfs.io/). 
 
