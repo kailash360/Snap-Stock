@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "chai": "^4.3.4",
+    "ipfs-http-client": "^54.0.0",
     "react-hot-toast": "^2.1.1"
   }
 }
