@@ -17,21 +17,21 @@ contract Decentragram {
   uint public image_count = 0;
   mapping (uint=>Image) public images;
 
-  event added_image(uint image_id,string name,string description,string hash);
-  event tipped_image(uint image_id,string name,uint tip_amount,uint total_tip);
+  event added_image(uint image_id,string name,string description,string hash,uint minimum_tip);
+  event tipped_image(uint image_id,string name,uint tip_amount,uint total_tip,address payable author,address tipper);
   
   
-  function upload_image(string memory _hash,string memory _name,string memory _description,address payable _author,uint _minimum_tip) public payable{
+  function upload_image(string memory _hash,string memory _name,string memory _description,address payable _author) public payable{
 
     //Create an new image instance
     image_count++;
-    Image memory new_image = Image(image_count,_name,_description,_hash,_author,_minimum_tip,0,block.timestamp);
+    Image memory new_image = Image(image_count,_name,_description,_hash,_author,msg.value,0,block.timestamp);
 
     //Add the image to the mapping
     images[image_count] = new_image;
 
     //Emit an event 
-    emit added_image(image_count,_name,_description,_hash);
+    emit added_image(image_count,_name,_description,_hash,msg.value);
   }
 
   function tip_image(uint _image_id) public payable{
@@ -58,7 +58,7 @@ contract Decentragram {
     images[_image_id] = image;
 
     //emit an event 
-    emit tipped_image(image.image_id,image.name, _tip_amount,image.total_tip);
+    emit tipped_image(image.image_id,image.name, _tip_amount,image.total_tip,_author,msg.sender);
   }
 
 }

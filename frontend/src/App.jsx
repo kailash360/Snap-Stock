@@ -19,6 +19,7 @@ function App() {
     
     //connect to the blockchain and request for account
     const web3 = new Web3("http://localhost:7545")
+    config.WEB3 = web3
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
     config.ACCOUNT = accounts[0]
 
@@ -29,16 +30,16 @@ function App() {
     console.log(config)
     
     //Insert all the images into data  
-    const imageCount = await config.METHODS.image_count().call()
+    const imageCount = await config.METHODS.image_count().call({gas:30000000})
     
     let temp =[]
     for(let i=1; i<=imageCount; i++){
       
       let image = await config.METHODS.images(i).call()
-      console.log(image)
       temp.push(image)
     }
 
+    console.log("Images ====>",temp)
     setData(temp)
 
   }, [])

@@ -1,15 +1,21 @@
 import React from 'react'
+import config from '../../../../config.js'
 
+function Card({imageId,name,description,hash,minimum_tip,tippable=true}) {
 
-function Card({name,description,hash,minimum_tip,createdAt,tippable=true}) {
+    const handleTip = async()=>{
+        const tipResult = await config.METHODS.tip_image(imageId).send({from:config.ACCOUNT,value: config.WEB3.utils.toWei('0.1','Ether'),gas:3000000})
+        console.log(tipResult)
+    }
+
     return (
-        <div class="card my-2 mx-2 py-1 px-0" style={{width: "28rem"}}>
-        <img class="card-img-top" src={"https://ipfs.io/ipfs/"+hash} alt="Card image cap"/>
-        <div class="card-body">
-            <h5 class="card-title">{name}</h5>
-            <p class="card-text">{description}</p>
-            <a href="#" class="btn btn-primary px-3" title = "Minimum Tip" style={{dispaly:tippable?"block":"none"}} >{minimum_tip} ETH</a>
-            <p class="card-text" style={{opacity:"0.7",fontSize:"90%"}}>{createdAt}</p>
+        <div className="card my-2 mx-2 py-1 px-0" style={{width: "28rem"}}>
+        <img className="card-img-top" src={"https://ipfs.io/ipfs/"+hash} alt="Card image cap"/>
+        <div className="card-body">
+            <h5 className="card-title">{name}</h5>
+            <p className="card-text">{description}</p>
+            <button className="btn btn-primary px-3" title = "Minimum Tip" style={{dispaly:tippable?"block":"none"}} onClick={handleTip} >Tip</button>
+            <p className="card-text" style={{opacity:"0.7",fontSize:"90%"}}>Minimum Tip : {minimum_tip} ETH</p>
         </div>
         </div>
     )

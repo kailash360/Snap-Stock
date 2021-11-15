@@ -6,7 +6,8 @@ function Home({posts}) {
     console.log("Posts ===>",posts)
     return (
         <div className="home">
-            {posts.map(post=><Card
+            {posts.map((post,index)=><Card
+                    imageId = {post.image_id}
                     name = {post.name}
                     description = {post.description}
                     hash = {post.hash}
