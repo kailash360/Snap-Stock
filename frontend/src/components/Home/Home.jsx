@@ -8,14 +8,16 @@ function Home({posts}) {
     return (
         <div className="home">
             <Toaster></Toaster>
-            {posts.map((post,index)=><Card
+            {posts && posts.length?posts.map((post,index)=><Card
                     imageId = {post.image_id}
                     name = {post.name}
                     description = {post.description}
                     hash = {post.hash}
                     minimum_tip = {post.minimum_tip}
                     createdAt = {post.createdAt}
-                ></Card>)}
+                ></Card>)
+            : <p className="message">Nothing has been uploaded yet</p>
+            }
         </div>
     )
 }

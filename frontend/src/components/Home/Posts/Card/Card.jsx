@@ -1,10 +1,18 @@
 import React from 'react'
 import config from '../../../../config.js'
+import toast from 'react-hot-toast'
 
 function Card({imageId,name,description,hash,minimum_tip,tippable=true}) {
 
     const handleTip = async()=>{
-        const tipResult = await config.METHODS.tip_image(imageId).send({from:config.ACCOUNT,value: config.WEB3.utils.toWei('0.1','Ether'),gas:3000000})
+        try{
+            const tipResult = await config.METHODS.tip_image(imageId).send({from:config.ACCOUNT,value: config.WEB3.utils.toWei('0.1','Ether'),gas:3000000})
+
+            toast.success("Tipped successfully")
+        }catch(err){
+            console.log(err)
+            toast.error(err)
+        }
     }
 
     return (

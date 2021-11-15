@@ -6,7 +6,7 @@ import * as IPFS from 'ipfs-core'
 import toast,{Toaster} from 'react-hot-toast'
 
 
-function Upload() {
+function Upload({load}) {
     
     const [name,setName] = useState("")
     const [description,setDescription] = useState("")
@@ -15,7 +15,7 @@ function Upload() {
 
     const handleUpload = async() => {
         try{
-            const node = await IPFS.create()
+            const node = await IPFS.create({repo:'ok'+Math.random()})
 
             if(!name || !description || !minimumTip || !uploadImage){
                 toast.error("Fields cannot be empty")
@@ -31,6 +31,11 @@ function Upload() {
             
             toast.success("Image uploaded successfully",{duration:3000})
             console.log("Image uploaded successfully")
+
+            load()
+            setName('')
+            setDescription('')
+            setUploadImage(null)
             
         }catch(error){
             console.log(error)

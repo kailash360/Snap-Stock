@@ -5,3 +5,10 @@
     justify-content: center;
     align-items: center;
 }
+
+.message {
+    margin-top: 250px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: rgb(2, 151, 161);
+}

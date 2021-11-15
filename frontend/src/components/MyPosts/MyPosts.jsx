@@ -5,7 +5,7 @@ import './styles/MyPosts.css'
 import Upload from './Upload/Upload'
 import config from '../../config.js'
 
-function MyPosts({posts}) {
+function MyPosts({posts,load}) {
 
     const [myPosts,setMyPosts] = useState([])
     useEffect(() => {
@@ -13,7 +13,7 @@ function MyPosts({posts}) {
     },[posts])
     
     return (<>
-        <Upload/>
+        <Upload load={load} />
         <div className="home">
             <h3>My Posts</h3>
             {myPosts && myPosts.length?myPosts.map(post=> 

@@ -7,15 +7,16 @@ import Home from './components/Home/Home'
 import MyPosts from './components/MyPosts/MyPosts'
 import config from './config'
 import toast from 'react-hot-toast';
-
+import {ReactComponent as Loader} from './assets/loader.svg'
 
 function App() {
   
   const [data,setData] = useState([])
   const [search,setSearch] = useState('')
-
+  const [loading,setLoading] = useState(false)
 
   const load =async()=>{
+    setLoading(true)
     setData([])
     
     //connect to the blockchain and request for account
@@ -41,6 +42,7 @@ function App() {
     }
   
     setData(temp)
+    setLoading(false)
   }
 
   //Connect to the blockchain once the app loads
@@ -68,10 +70,11 @@ function App() {
     <div className="App">
       <Router>
         <Navigation search={search} setSearch={setSearch}></Navigation>
-        <Routes>
+        {!loading?<Routes>
           <Route exact path="/" element={<Home posts={data} />} ></Route>
-          <Route exact path="/my-posts" element={<MyPosts posts={data} />} ></Route>
-        </Routes>
+          <Route exact path="/my-posts" element={<MyPosts posts={data} load={load} />} ></Route>
+        </Routes>:
+        <Loader/>}
       </Router>
     </div>
   );
