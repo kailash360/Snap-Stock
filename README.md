@@ -10,6 +10,13 @@ The images are stored in a P2P network using the [Inter Planetary File system (I
 - Set a minimum tip amount that can be tipped on each of you images
 - Tip other images using real-time Ganache-based transactions
 
+## Tech Stacks Used 
+
+- Solidity smart-contracts
+- Web3.0 
+- IPFS Protocol
+- ReactJS
+
 ## Setting up the project  
 
 1. Make sure you have the following  installed in your device:
@@ -50,9 +57,10 @@ npm install
 ```
 npm start 
 ```
-## Techstacks used 
 
-- Solidity smart-contracts
-- Web3.0 
-- IPFS Protocol
-- ReactJS
+## Running tests 
+1. To run tests on the app, complete upto setp 4 above. 
+2. Run the following command to run tests using the ```chai``` and ```mocha``` library
+```
+truffle test
+```
