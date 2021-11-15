@@ -9,7 +9,7 @@ const config = {
     DECENTRAGRAM_ABI,
     DECENTRAGRAM_ADDRESS,
     ACCOUNT,
-    METHODS
+    METHODS,
 }
 
 export default config;

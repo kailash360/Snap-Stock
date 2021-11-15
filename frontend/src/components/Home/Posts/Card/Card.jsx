@@ -4,7 +4,7 @@ import React from 'react'
 function Card({name,description,hash,minimum_tip,createdAt,tippable=true}) {
     return (
         <div class="card my-2 mx-2 py-1 px-0" style={{width: "28rem"}}>
-        <img class="card-img-top" src={"https://www.robohash.org/"+hash} alt="Card image cap"/>
+        <img class="card-img-top" src={"https://ipfs.io/ipfs/"+hash} alt="Card image cap"/>
         <div class="card-body">
             <h5 class="card-title">{name}</h5>
             <p class="card-text">{description}</p>

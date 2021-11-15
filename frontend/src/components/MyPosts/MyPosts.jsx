@@ -1,18 +1,23 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import Card from '../Home/Posts/Card/Card'
 import '../Home/styles/Home.css'
 import './styles/MyPosts.css'
 import Upload from './Upload/Upload'
+import config from '../../config.js'
 
 function MyPosts({posts}) {
 
-
+    const [myPosts,setMyPosts] = useState([])
+    useEffect(() => {
+        setMyPosts(posts.filter(post=>post.author.toLowerCase()===config.ACCOUNT))
+    },[posts])
     
     return (<>
         <Upload/>
         <div className="home">
             <h3>My Posts</h3>
-            {posts && posts.length?posts.map(post=><Card
+            {myPosts && myPosts.length?myPosts.map(post=> 
+                <Card
                     name = {post.name}
                     description = {post.description}
                     hash = {post.hash}

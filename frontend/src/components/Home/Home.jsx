@@ -3,7 +3,7 @@ import Card from './Posts/Card/Card'
 import './styles/Home.css'
 
 function Home({posts}) {
-
+    console.log("Posts ===>",posts)
     return (
         <div className="home">
             {posts.map(post=><Card
