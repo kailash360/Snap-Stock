@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "chai": "^4.3.4"
+    "chai": "^4.3.4",
+    "react-hot-toast": "^2.1.1"
   }
 }
