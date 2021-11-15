@@ -12,8 +12,7 @@ function App() {
 
   const [data,setData] = useState([])
   const [search,setSearch] = useState('')
-  const [myPosts,setMyPosts] = useState(data.filter(post=>post.author === config.ACCOUNT))
-
+  const [myPosts,setMyPosts] = useState([])
 
   //Connect to the blockchain once the app loads
   useEffect(async() => {
@@ -27,13 +26,16 @@ function App() {
 
     console.log(config)
 
-    //Insert the images into data  
+    //Insert all the images into data  
     const imageCount = await config.METHODS.image_count().call()
     for(let i=1; i<=imageCount; i++){
 
       let image = await config.METHODS.images(i).call()
       setData([...data,image])
     }
+
+    //update the data for my posts
+    setMyPosts(data.filter(post=>post.author === config.ACCOUNT))
   }, [])
 
 
