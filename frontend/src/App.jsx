@@ -3,35 +3,60 @@ import './App.css';
 import Web3 from 'web3'
 import { BrowserRouter as Router,Routes,Route } from "react-router-dom";
 import Navigation from './components/Navbar/Navbar'
+import Home from './components/Home/Home'
+import MyPosts from './components/MyPosts/MyPosts'
+import config from './config'
+
 
 function App() {
 
-  const [account,setAccount] = useState(null)
+  const [data,setData] = useState([])
+  const [search,setSearch] = useState('')
+  const [myPosts,setMyPosts] = useState(data.filter(post=>post.author === config.ACCOUNT))
 
-  const load = async() => {
-    try{
-      const web3 = new Web3("http://localhost:7545") 
-      const accounts = await web3.eth.getAccounts()
-      setAccount(accounts[0])
 
-      console.log(web3)
-    }catch(err){
-      console.log(err)
+  //Connect to the blockchain once the app loads
+  useEffect(async() => {
+    //connect to the blockchain and request for account
+    const web3 = new Web3("http://localhost:7545")
+    config.ACCOUNT = await window.ethereum.request({ method: 'eth_requestAccounts' })
+
+    //Create the contract instance using build, and add the builds
+    const contract = new web3.eth.Contract(config.DECENTRAGRAM_ABI, config.DECENTRAGRAM_ADDRESS)
+    config.METHODS = contract.methods
+
+    console.log(config)
+
+    //Insert the images into data  
+    const imageCount = await config.METHODS.image_count().call()
+    for(let i=1; i<=imageCount; i++){
+
+      let image = await config.METHODS.images(i).call()
+      setData([...data,image])
     }
-  }
-
-  useEffect(() => {
-    load()
   }, [])
+
+
+
+  //Update posts on searching
+  useEffect(() => {
+    //Update the data on homepage
+    let filterData = data.filter(post=>post.name.toLowerCase().includes(search.toLowerCase()))
+    setData(filterData)
+
+    //Update my posts
+    let filteredMyPosts = data.filter(post=>post.author===config.ACCOUNT)
+    setMyPosts(filteredMyPosts)
+  },[search])
 
 
   return (
     <div className="App">
       <Router>
-        <Navigation></Navigation>
+        <Navigation search={search} setSearch={setSearch}></Navigation>
         <Routes>
-          <Route path="/" ></Route>
-          <Route path="/my-posts" ></Route>
+          <Route exact path="/" element={<Home posts={data} />} ></Route>
+          <Route exact path="/my-posts" element={<MyPosts posts={myPosts} />} ></Route>
         </Routes>
       </Router>
     </div>
