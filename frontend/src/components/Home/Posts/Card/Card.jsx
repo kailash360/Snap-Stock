@@ -5,7 +5,6 @@ function Card({imageId,name,description,hash,minimum_tip,tippable=true}) {
 
     const handleTip = async()=>{
         const tipResult = await config.METHODS.tip_image(imageId).send({from:config.ACCOUNT,value: config.WEB3.utils.toWei('0.1','Ether'),gas:3000000})
-        console.log(tipResult)
     }
 
     return (

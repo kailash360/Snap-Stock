@@ -3,6 +3,7 @@ import Web3 from 'web3'
 import '../styles/MyPosts.css'
 import config from '../../../config.js'
 import * as IPFS from 'ipfs-core'
+import toast,{Toaster} from 'react-hot-toast'
 
 
 function Upload() {
@@ -13,24 +14,33 @@ function Upload() {
     const [uploadImage,setUploadImage] = useState(null)
 
     const handleUpload = async() => {
+        try{
+            const node = await IPFS.create()
 
-        const node = await IPFS.create()
+            if(!name || !description || !minimumTip || !uploadImage){
+                toast.error("Fields cannot be empty")
+                return
+            }
 
-        if(!name || !description || !minimumTip || !uploadImage){
-            return
-        }
-
-        const ipfsUploadResult = await node.add(uploadImage)
-    
-        //convert amount to Big Number
-        let bigMinimumTip = new Web3.utils.BN(minimumTip)
+            const ipfsUploadResult = await node.add(uploadImage)
         
-        const blockchainUploadResult = await config.METHODS.upload_image(ipfsUploadResult.path,name,description,config.ACCOUNT).send({from:config.ACCOUNT,gas:3000000,value:bigMinimumTip})
-        console.log(blockchainUploadResult)
+            //convert amount to Big Number
+            let bigMinimumTip = new Web3.utils.BN(minimumTip)
+            
+            const blockchainUploadResult = await config.METHODS.upload_image(ipfsUploadResult.path,name,description,config.ACCOUNT).send({from:config.ACCOUNT,gas:3000000,value:bigMinimumTip})
+            
+            toast.success("Image uploaded successfully",{duration:3000})
+            console.log("Image uploaded successfully")
+            
+        }catch(error){
+            console.log(error)
+            toast.error(error.message)
+        }
     }
 
     return (
         <div className="upload">
+            <Toaster  position="top-center"/>
             <h3>Upload new post</h3>
             <div className="mb-3 col-3 my-3 mx-auto">
                 <input className="form-control" type="file" id="formFile" onChange={(e)=>{setUploadImage(e.target.files[0])}} />

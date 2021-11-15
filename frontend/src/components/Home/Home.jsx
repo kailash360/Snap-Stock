@@ -1,11 +1,13 @@
 import React from 'react'
 import Card from './Posts/Card/Card'
 import './styles/Home.css'
+import {Toaster} from 'react-hot-toast'
 
 function Home({posts}) {
     console.log("Posts ===>",posts)
     return (
         <div className="home">
+            <Toaster></Toaster>
             {posts.map((post,index)=><Card
                     imageId = {post.image_id}
                     name = {post.name}

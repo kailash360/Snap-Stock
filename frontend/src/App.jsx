@@ -6,15 +6,16 @@ import Navigation from './components/Navbar/Navbar'
 import Home from './components/Home/Home'
 import MyPosts from './components/MyPosts/MyPosts'
 import config from './config'
+import toast from 'react-hot-toast';
+
 
 function App() {
-
+  
   const [data,setData] = useState([])
   const [search,setSearch] = useState('')
-  const [myPosts,setMyPosts] = useState([])
-  
-  //Connect to the blockchain once the app loads
-  useEffect(async() => {
+
+
+  const load =async()=>{
     setData([])
     
     //connect to the blockchain and request for account
@@ -22,7 +23,7 @@ function App() {
     config.WEB3 = web3
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
     config.ACCOUNT = accounts[0]
-
+  
     //Create the contract instance using build, and add the builds
     const contract = new web3.eth.Contract(config.DECENTRAGRAM_ABI, config.DECENTRAGRAM_ADDRESS)
     config.METHODS = contract.methods
@@ -30,18 +31,27 @@ function App() {
     console.log(config)
     
     //Insert all the images into data  
-    const imageCount = await config.METHODS.image_count().call({gas:30000000})
-    
+    const imageCount = await config.METHODS.image_count().call()
+  
     let temp =[]
     for(let i=1; i<=imageCount; i++){
       
       let image = await config.METHODS.images(i).call()
       temp.push(image)
     }
-
-    console.log("Images ====>",temp)
+  
     setData(temp)
+  }
 
+  //Connect to the blockchain once the app loads
+  useEffect(() => {
+    try{
+      load()
+      toast.success("Connected to the blockchain network successfully")
+    }catch(e){
+      console.log(e)
+      toast.error(e.message)
+    }
   }, [])
 
 
