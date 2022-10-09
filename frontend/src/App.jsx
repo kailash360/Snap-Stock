@@ -8,6 +8,7 @@ import MyPosts from './components/MyPosts/MyPosts'
 import config from './config'
 import toast from 'react-hot-toast';
 import {ReactComponent as Loader} from './assets/loader.svg'
+import env from "react-dotenv";
 
 function App() {
   
@@ -20,7 +21,7 @@ function App() {
     setData([])
     
     //connect to the blockchain and request for account
-    const web3 = new Web3("http://localhost:7545")
+    const web3 = new Web3(window.env.REACT_APP_WEB3_PROVIDER_URL)
     config.WEB3 = web3
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
     config.ACCOUNT = accounts[0]
